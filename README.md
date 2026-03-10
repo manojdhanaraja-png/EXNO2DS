@@ -23,7 +23,103 @@ STEP 7: Use cross tabulation method to quantitatively analyze the relationship b
 STEP 8: Use heatmap method of representation to show relationships between two variables, one plotted on each axis.
 
 ## CODING AND OUTPUT
-        <<INCLUDE YOUR CODING AND OUTPUT SCREENSHOTS>>
+```
+ #---------------------------------------
+# Step 1: Import Required Packages
+#---------------------------------------
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+#---------------------------------------
+# Step 2: Load the Dataset
+#---------------------------------------
+data = pd.read_csv("titanic_dataset.csv")
+print("\nDataset Loaded Successfully\n")
+print(data.head())
+print("\nDataset Info:\n")
+print(data.info())
+print(data.describe())
+#---------------------------------------
+# Step 3: Data Cleansing- Handle Missing Values
+#---------------------------------------
+numeric_cols = data.select_dtypes(include='number').columns
+categorical_cols = data.select_dtypes(exclude='number').columns
+data[numeric_cols] = data[numeric_cols].apply(lambda x: x.fillna(x.median()))
+data[categorical_cols] = data[categorical_cols].apply(lambda x: x.fillna(x.
+↪mode()[0]))
+print("Missing values handled successfully!")
+#---------------------------------------
+# Step 4: Boxplot to Analyze Outliers (Age & Fare)
+#---------------------------------------
+plt.figure(figsize=(6,4))
+sns.boxplot(x=data["Age"])
+plt.title("Boxplot- Age")
+
+plt.show()
+plt.figure(figsize=(6,4))
+sns.boxplot(x=data["Fare"])
+plt.title("Boxplot- Fare")
+plt.show()
+#---------------------------------------
+# Step 5: Remove Outliers Using IQR Method
+#---------------------------------------
+def remove_outliers_iqr(df, column):
+Q1 = df[column].quantile(0.25)
+Q3 = df[column].quantile(0.75)
+IQR = Q3- Q1
+lower = Q1- 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+return df[(df[column] >= lower) & (df[column] <= upper)]
+data = remove_outliers_iqr(data, "Age")
+data = remove_outliers_iqr(data, "Fare")
+print("Outliers removed using IQR method.\n")
+#---------------------------------------
+# Step 6: Countplot for Categorical Data
+#---------------------------------------
+plt.figure(figsize=(6,4))
+sns.countplot(x="Survived", data=data)
+plt.title("Countplot- Survival Distribution")
+plt.show()
+plt.figure(figsize=(6,4))
+sns.countplot(x="Sex", data=data)
+plt.title("Countplot- Gender Distribution")
+plt.show()
+plt.figure(figsize=(6,4))
+sns.countplot(x="Pclass", data=data)
+plt.title("Countplot- Passenger Class Distribution")
+plt.show()
+#---------------------------------------
+# Step 7: Displot for Univariate Distribution
+#---------------------------------------
+sns.displot(data["Age"], kde=True, height=4, aspect=1.5)
+plt.title("Displot- Age Distribution")
+plt.show()
+
+sns.displot(data["Fare"],kde=True,height=4,aspect=1.5)
+plt.title("Displot-FareDistribution")
+plt.show()
+#---------------------------------------
+#Step8: Cross Tabulation
+#---------------------------------------
+print("\nCross Tabulation:SexvsSurvived\n")
+print(pd.crosstab(data["Sex"],data["Survived"]))
+print("\nCross Tabulation:PclassvsSurvived\n")
+print(pd.crosstab(data["Pclass"],data["Survived"]))
+#---------------------------------------
+#Step9: HeatmapforCorrelationAnalysis
+#---------------------------------------
+plt.figure(figsize=(8,6))
+correlation_matrix= data.select_dtypes(include=np.number).corr()
+sns.heatmap(correlation_matrix,annot=True,cmap="coolwarm")
+plt.title("CorrelationHeatmap-TitanicDataset")
+plt.show()
+```
 
 # RESULT
-        <<INCLUDE YOUR RESULT HERE>>
+<img width="397" height="640" alt="{042ADDCF-C1C9-4A4E-8031-8ADA6EC3141A}" src="https://github.com/user-attachments/assets/e8d46d13-d8f1-487a-bf0f-fd46db87b9bb"/>
+<img width="499" height="684" alt="{C07EEE38-ECC9-4D99-8CF0-DD2BD400C52F}" src="https://github.com/user-attachments/assets/7ceef3fa-6c93-48bd-bf50-63715df926b7"/>
+<img width="477" height="312" alt="{080D79C2-129C-471B-8DF9-464215319052}" src="https://github.com/user-attachments/assets/1eb4c9d2-3c85-4ee2-b3f9-bac2cae5044d"/>
+<img width="474" height="684" alt="{3394DCBC-D00B-44EE-A885-7BBECE26B997}" src="https://github.com/user-attachments/assets/5c78dcb6-84ac-4ff0-a7fc-e3937e93b8d3"/>
+<img width="524" height="606" alt="{3904E90C-9FAB-4157-AF06-F4684A001F9D}" src="https://github.com/user-attachments/assets/c303837d-90eb-44d5-a696-9e43b308389b"/>
+

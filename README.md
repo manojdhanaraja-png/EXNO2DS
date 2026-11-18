@@ -1,6 +1,6 @@
 # EXNO2DS
 # AIM:
-      To perform Exploratory Data Analysis on the given data set.
+To perform Exploratory Data Analysis on the given data set.
       
 # EXPLANATION:
   The primary aim with exploratory analysis is to examine the data for distribution, outliers and anomalies to direct specific testing of your hypothesis.
@@ -22,104 +22,183 @@ STEP 7: Use cross tabulation method to quantitatively analyze the relationship b
 
 STEP 8: Use heatmap method of representation to show relationships between two variables, one plotted on each axis.
 
-## CODING AND OUTPUT
+# CODING AND OUTPUT
+
 ```
- #---------------------------------------
-# Step 1: Import Required Packages
-#---------------------------------------
+Name: Manoj R
+reg no: 212225040225
+```
+
+```
 import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-#---------------------------------------
-# Step 2: Load the Dataset
-#---------------------------------------
-data = pd.read_csv("titanic_dataset.csv")
-print("\nDataset Loaded Successfully\n")
-print(data.head())
-print("\nDataset Info:\n")
-print(data.info())
-print(data.describe())
-#---------------------------------------
-# Step 3: Data Cleansing- Handle Missing Values
-#---------------------------------------
-numeric_cols = data.select_dtypes(include='number').columns
-categorical_cols = data.select_dtypes(exclude='number').columns
-data[numeric_cols] = data[numeric_cols].apply(lambda x: x.fillna(x.median()))
-data[categorical_cols] = data[categorical_cols].apply(lambda x: x.fillna(x.
-↪mode()[0]))
-print("Missing values handled successfully!")
-#---------------------------------------
-# Step 4: Boxplot to Analyze Outliers (Age & Fare)
-#---------------------------------------
-plt.figure(figsize=(6,4))
-sns.boxplot(x=data["Age"])
-plt.title("Boxplot- Age")
 
-plt.show()
-plt.figure(figsize=(6,4))
-sns.boxplot(x=data["Fare"])
-plt.title("Boxplot- Fare")
-plt.show()
-#---------------------------------------
-# Step 5: Remove Outliers Using IQR Method
-#---------------------------------------
-def remove_outliers_iqr(df, column):
-Q1 = df[column].quantile(0.25)
-Q3 = df[column].quantile(0.75)
-IQR = Q3- Q1
-lower = Q1- 1.5 * IQR
-upper = Q3 + 1.5 * IQR
-return df[(df[column] >= lower) & (df[column] <= upper)]
-data = remove_outliers_iqr(data, "Age")
-data = remove_outliers_iqr(data, "Fare")
-print("Outliers removed using IQR method.\n")
-#---------------------------------------
-# Step 6: Countplot for Categorical Data
-#---------------------------------------
-plt.figure(figsize=(6,4))
-sns.countplot(x="Survived", data=data)
-plt.title("Countplot- Survival Distribution")
-plt.show()
-plt.figure(figsize=(6,4))
-sns.countplot(x="Sex", data=data)
-plt.title("Countplot- Gender Distribution")
-plt.show()
-plt.figure(figsize=(6,4))
-sns.countplot(x="Pclass", data=data)
-plt.title("Countplot- Passenger Class Distribution")
-plt.show()
-#---------------------------------------
-# Step 7: Displot for Univariate Distribution
-#---------------------------------------
-sns.displot(data["Age"], kde=True, height=4, aspect=1.5)
-plt.title("Displot- Age Distribution")
-plt.show()
-
-sns.displot(data["Fare"],kde=True,height=4,aspect=1.5)
-plt.title("Displot-FareDistribution")
-plt.show()
-#---------------------------------------
-#Step8: Cross Tabulation
-#---------------------------------------
-print("\nCross Tabulation:SexvsSurvived\n")
-print(pd.crosstab(data["Sex"],data["Survived"]))
-print("\nCross Tabulation:PclassvsSurvived\n")
-print(pd.crosstab(data["Pclass"],data["Survived"]))
-#---------------------------------------
-#Step9: HeatmapforCorrelationAnalysis
-#---------------------------------------
-plt.figure(figsize=(8,6))
-correlation_matrix= data.select_dtypes(include=np.number).corr()
-sns.heatmap(correlation_matrix,annot=True,cmap="coolwarm")
-plt.title("CorrelationHeatmap-TitanicDataset")
-plt.show()
+dt = pd.read_csv("/content/titanic_dataset.csv")
+dt
 ```
 
-# RESULT
-<img width="397" height="640" alt="{042ADDCF-C1C9-4A4E-8031-8ADA6EC3141A}" src="https://github.com/user-attachments/assets/e8d46d13-d8f1-487a-bf0f-fd46db87b9bb"/>
-<img width="499" height="684" alt="{C07EEE38-ECC9-4D99-8CF0-DD2BD400C52F}" src="https://github.com/user-attachments/assets/7ceef3fa-6c93-48bd-bf50-63715df926b7"/>
-<img width="477" height="312" alt="{080D79C2-129C-471B-8DF9-464215319052}" src="https://github.com/user-attachments/assets/1eb4c9d2-3c85-4ee2-b3f9-bac2cae5044d"/>
-<img width="474" height="684" alt="{3394DCBC-D00B-44EE-A885-7BBECE26B997}" src="https://github.com/user-attachments/assets/5c78dcb6-84ac-4ff0-a7fc-e3937e93b8d3"/>
-<img width="524" height="606" alt="{3904E90C-9FAB-4157-AF06-F4684A001F9D}" src="https://github.com/user-attachments/assets/c303837d-90eb-44d5-a696-9e43b308389b"/>
+<img width="932" height="411" alt="image" src="https://github.com/user-attachments/assets/e32ba4fa-afb0-4ce4-b272-63a4459b6b41" />
 
+```
+dt.info()
+```
+
+<img width="338" height="322" alt="image" src="https://github.com/user-attachments/assets/2b438e5e-74a8-4f75-8974-2a8f7c18003b" />
+
+```
+dt.shape
+```
+
+<img width="648" height="32" alt="image" src="https://github.com/user-attachments/assets/a5cbd3d6-dd63-46c1-8a1d-f099eac48ba1" />
+
+```
+dt.set_index("PassengerId",inplace=True)
+dt
+```
+
+<img width="1025" height="515" alt="image" src="https://github.com/user-attachments/assets/912dbc1c-6476-4863-8234-0205fb7fc43c" />
+
+
+```
+print("Data types:")
+display(dt.dtypes.to_frame("Data Type"))
+
+```
+<img width="512" height="427" alt="image" src="https://github.com/user-attachments/assets/48d1bd01-b84a-42e5-99cf-25519b797a0d" />
+
+```
+
+print("Missing values:")
+missing=pd.DataFrame({
+    "Missing count":dt.isnull().sum(),
+    "Missing percentage":(dt.isna().mean()*100).round(2)
+})
+display(missing.sort_values("Missing percentage",ascending=False))
+```
+
+<img width="437" height="383" alt="image" src="https://github.com/user-attachments/assets/1c80c6dd-a61f-494d-953d-4cec82cad4cf" />
+
+```
+print("Exact duplicate rows:",dt.duplicated().sum())
+print("Numeric summary")
+display(dt.describe())
+
+```
+<img width="672" height="296" alt="image" src="https://github.com/user-attachments/assets/1d59d600-a754-4770-ba4c-59e36d276c44" />
+
+```
+
+dt.nunique()
+
+```
+<img width="258" height="393" alt="image" src="https://github.com/user-attachments/assets/9de3b427-6111-4c8b-b0c5-e2bd2f3653fc" />
+
+```
+dt["Survived"].value_counts()
+
+```
+<img width="287" height="202" alt="image" src="https://github.com/user-attachments/assets/b02af9ee-770e-483c-86ee-5df49abed05d" />
+
+```
+
+per=(dt["Survived"].value_counts()/dt.shape[0]*100).round(2)
+per
+
+```
+<img width="216" height="172" alt="image" src="https://github.com/user-attachments/assets/51e23375-6b41-49fb-9ee5-b1544bf7eb6b" />
+
+```
+
+sns.countplot(data=dt, x="Survived")
+
+```
+<img width="652" height="455" alt="image" src="https://github.com/user-attachments/assets/9efbf5d7-a3bf-4188-ac7e-6e11904bb49a" />
+
+```
+
+dt.Pclass.unique()
+
+```
+<img width="1023" height="72" alt="image" src="https://github.com/user-attachments/assets/c260e161-ccf2-4e56-95df-b157f46caa0b" />
+
+```
+
+dt.rename(columns={'Sex':'Gender'},inplace=True) 
+dt
+
+```
+<img width="1026" height="506" alt="image" src="https://github.com/user-attachments/assets/81fd6cc3-79fa-47ba-8694-a19e65da1f9a" />
+
+```
+sns.catplot(x='Gender',col='Survived',kind='count',data=dt,height=5,aspect=.7)
+
+```
+<img width="967" height="486" alt="image" src="https://github.com/user-attachments/assets/692b2386-698d-4928-89f2-eb7c6bbf46fd" />
+
+```
+sns.catplot(x='Survived', hue="Gender", data=dt, kind = "count")
+```
+<img width="837" height="451" alt="image" src="https://github.com/user-attachments/assets/a3972279-b27f-4a98-a77f-38004ef385de" />
+
+```
+dt.boxplot(column='Age',by='Survived')
+```
+<img width="732" height="450" alt="image" src="https://github.com/user-attachments/assets/39dcb1ce-1b9a-4a90-9919-49051f63d94a" />
+
+```
+sns.scatterplot(x=dt['Age'],y=dt['Fare'])
+
+```
+<img width="852" height="422" alt="image" src="https://github.com/user-attachments/assets/379e6841-4e8d-4b7a-bd25-a447517bbc83" />
+
+```
+sns.jointplot(x="Age",y="Fare", data=dt)
+```
+<img width="692" height="567" alt="image" src="https://github.com/user-attachments/assets/e867ee24-f615-4949-9339-cbb0bdf84e60" />
+
+```
+fig, ax1= plt.subplots(figsize=(8,5))
+pt=sns.boxplot(ax=ax1,x="Pclass",y='Age', hue='Gender', data=dt)
+```
+<img width="817" height="422" alt="image" src="https://github.com/user-attachments/assets/023e8c35-9f48-44a0-b567-a821d6768abd" />
+
+```
+sns.catplot(data=dt, col ="Survived", x = "Gender", hue="Pclass", kind = "count")
+```
+<img width="1028" height="485" alt="image" src="https://github.com/user-attachments/assets/a69a8506-be01-4aed-a633-2127b60c136a" />
+
+```
+corr=dt.corr(numeric_only=True)
+
+sns.heatmap(corr,annot=True,cmap='coolwarm')
+
+```
+<img width="682" height="412" alt="image" src="https://github.com/user-attachments/assets/755f8dcd-b134-404a-95ed-b3281218f046" />
+
+# Summary:
+
+1. Data Understanding:
+I learned how to load the Titanic dataset using Pandas and understand its structure, rows, columns, and data types.
+
+2. Data Cleaning:
+I learned how to identify missing values, check duplicate records, and understand the importance of cleaning data before performing analysis.
+
+3. Data Visualization:
+I understood how to represent data graphically using countplots, boxplots, scatterplots, jointplots, and heatmaps.
+
+4. Univariate Analysis:
+I learned how to analyze individual variables such as Age, Gender, and Survived to understand their distribution and patterns.
+
+5. Bivariate Analysis:
+I learned how to compare two variables, such as Age and Fare, and identify relationships between passenger details.
+
+6. Correlation Analysis:
+I understood how to use correlation and heatmaps to identify relationships between numerical variables in the dataset.
+
+7. Overall Learning:
+Through this experiment, I gained practical knowledge of Exploratory Data Analysis (EDA) using Python libraries such as Pandas, NumPy, Matplotlib, and Seaborn. I also learned how to explore, analyze, and visualize the Titanic dataset to identify useful patterns and insights.
+
+# RESULT:
+The Program and The Output has been sucessfully Verified along with the Visualization .
